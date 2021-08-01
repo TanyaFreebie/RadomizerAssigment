@@ -2,63 +2,47 @@ package com.company;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        List<Project> projectList = new ArrayList<>();
-        projectList.add(new Project("1", "jsj"));
-        projectList.add(new Project("2", "jjfkpid"));
-        projectList.add(new Project("3", "kdwj"));
-        projectList.add(new Project("4", "jsj"));
-        projectList.add(new Project("5", "jjfkpid"));
-        projectList.add(new Project("6", "kdwj"));
-
-        List <Participant> participantList = new ArrayList<>();
-        participantList.add(new Participant("a", "b", false));
-        participantList.add(new Participant("c", "d", false));
-        participantList.add(new Participant("e", "f", false));
-        participantList.add(new Participant("g", "h", false));
-        participantList.add(new Participant("I", "J", false));
-        participantList.add(new Participant("k", "l", false));
-        participantList.add(new Participant("m", "n", false));
-        participantList.add(new Participant("o", "p", false));
-        participantList.add(new Participant("q", "r", false));
-        participantList.add(new Participant("s", "t", false));
-        participantList.add(new Participant("u", "v", false));
-        participantList.add(new Participant("w", "x", false));
-        participantList.add(new Participant("y", "z", false));
-        participantList.add(new Participant("z", "a", false));
-
-        for(Participant participant : participantList){
-            List<Project> projectAssignment = new ArrayList<>();
+        List<String> participantList = new ArrayList<>();
+        participantList.add("Tanya K");
+        participantList.add("Darja J");
+        participantList.add("Sandija");
+        participantList.add("Sanita");
+        participantList.add("Kristine B");
+        participantList.add("Linda");
+        participantList.add("Zanna J");
+        participantList.add("Helena P");
+        participantList.add("Julija V");
+        participantList.add("Sandra");
+        participantList.add("Agnese");
+        participantList.add("Daiga S");
+        participantList.add("Alija J");
 
 
+        int numOfGroups = participantList.size()/ 3;
 
-            if(!participant.isHasAssignment()){
-                projectAssignment.add(projectList.get(getRandomProject(projectList)));
-                participant.setHasAssignment(true);
-                participant.setFinalProject(projectAssignment);
+        Collections.shuffle(participantList);
+        List<List<String>> groups = IntStream.range(0, participantList.size())
+                .boxed()
+                .collect(Collectors.groupingBy(i -> i % numOfGroups))
+                .values()
+                .stream()
+                .map(il -> il.stream().map(participantList::get).collect(Collectors.toList()))
+                .collect(Collectors.toList());
 
-            }
-        }
-
-        for(Participant participant : participantList)
-            System.out.println(participant.getName() + " " + participant.getSurname() + " will work on project No " + participant.getFinalProject().get(0).getProjectName());
-
+        groups.forEach(System.out::println);
 
 
 
 
     }//END OF MAIN
 
-//    public static int getRandomPerson(List <Participant> objectList){
-//        return (int) (Math.random() * (objectList.size() + 1));
-//    }
-
-    public static int getRandomProject(List <Project> objectList){
-        return (int) (Math.random() * objectList.size());
-    }
 }
